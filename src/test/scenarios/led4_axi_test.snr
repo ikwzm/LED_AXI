@@ -1,0 +1,89 @@
+---
+- MARCHAL : 
+  - SAY   : LED4_AXI_TEST
+---
+- MARCHAL : 
+  - SAY   : LED4_AXI_TEST.1.0
+- CSR : 
+  - WAIT  : {GPI(3) : 1, GPI(2) : 1, GPI(1) : 1, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=1110"
+  - WAIT  : {GPI(3) : 1, GPI(2) : 1, GPI(1) : 0, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=1100"
+  - WAIT  : {GPI(3) : 1, GPI(2) : 0, GPI(1) : 0, GPI(0) : 1, TIMEOUT: 1000000}
+  - SAY   : "LED=1001"
+  - WAIT  : {GPI(3) : 0, GPI(2) : 0, GPI(1) : 1, GPI(0) : 1, TIMEOUT: 1000000}
+  - SAY   : "LED=0011"
+  - WAIT  : {GPI(3) : 0, GPI(2) : 1, GPI(1) : 1, GPI(0) : 1, TIMEOUT: 1000000}
+  - SAY   : "LED=0111"
+  - WAIT  : {GPI(3) : 1, GPI(2) : 1, GPI(1) : 1, GPI(0) : 1, TIMEOUT: 1000000}
+  - SAY   : "LED=1111"
+---
+- MARCHAL : 
+  - SAY   : LED4_AXI_TEST.1.1
+- CSR : 
+  - WRITE : 
+      ADDR : 0x0
+      ID   : 10
+      DATA : - 0x00000000
+             - 0x00000000
+      RESP : OKAY
+  - SYNC  : {PORT : LOCAL}
+  - READ  : 
+      ADDR : 0x0
+      ID   : 10
+      DATA : - 0x00000000
+             - 0x00000000
+      RESP : OKAY
+  - SYNC  : {PORT : LOCAL}
+  - WAIT  : {GPI(3) : 0, GPI(2) : 0, GPI(1) : 0, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=0000"
+---
+- MARCHAL : 
+  - SAY   : LED4_AXI_TEST.1.2
+- CSR : 
+  - WRITE : 
+      ADDR : 0x0
+      ID   : 10
+      DATA : - 0x0000000A
+             - 0x0000BEAF
+      RESP : OKAY
+  - SYNC  : {PORT : LOCAL}
+  - READ  : 
+      ADDR : 0x0
+      ID   : 10
+      DATA : - 0x0000000A
+             - 0x0000BEAF
+      RESP : OKAY
+  - SYNC  : {PORT : LOCAL}
+  - WAIT  : {GPI(3) : 1, GPI(2) : 0, GPI(1) : 1, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=1010"
+---
+- MARCHAL : 
+  - SAY   : LED4_AXI_TEST.1.3
+- CSR : 
+  - WRITE : 
+      ADDR : 0x0
+      ID   : 10
+      DATA : - 0x00842101
+             - 0xB0000080
+      RESP : OKAY
+  - SYNC  : {PORT : LOCAL}
+  - READ  : 
+      ADDR : 0x0
+      ID   : 10
+      DATA : - 0x00842101
+             - 0xB0000080
+      RESP : OKAY
+  - SYNC  : {PORT : LOCAL}
+  - WAIT  : {GPI(3) : 0, GPI(2) : 0, GPI(1) : 0, GPI(0) : 1, TIMEOUT: 1000000}
+  - SAY   : "LED=0001"
+  - WAIT  : {GPI(3) : 0, GPI(2) : 0, GPI(1) : 1, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=0010"
+  - WAIT  : {GPI(3) : 0, GPI(2) : 1, GPI(1) : 0, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=0100"
+  - WAIT  : {GPI(3) : 1, GPI(2) : 0, GPI(1) : 0, GPI(0) : 0, TIMEOUT: 1000000}
+  - SAY   : "LED=1000"
+  - WAIT  : {GPI(3) : 0, GPI(2) : 0, GPI(1) : 0, GPI(0) : 1, TIMEOUT: 1000000}
+  - SAY   : "LED=0001"
+---
+
