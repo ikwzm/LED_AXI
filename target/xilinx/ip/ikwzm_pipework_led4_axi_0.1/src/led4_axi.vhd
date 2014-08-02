@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------
---!     @file    led_csr.vhd
---!     @brief   LED Control Status Registers
+--!     @file    led4_axi.vhd
+--!     @brief   LEDx4 Control Status Registers with AXI Slave Interface
 --!     @version 0.0.1
 --!     @date    2014/7/28
 --!     @author  Ichiro Kawazome <ichiro_k@ca2.so-net.ne.jp>
@@ -37,284 +37,361 @@
 library ieee;
 use     ieee.std_logic_1164.all;
 -----------------------------------------------------------------------------------
---! @brief LED Control Status Registers
+--! @brief 
 -----------------------------------------------------------------------------------
-entity  LED_CSR is
-    -------------------------------------------------------------------------------
-    -- 
-    -------------------------------------------------------------------------------
+entity  LED4_AXI is
     generic (
-        LED_NUM         : integer :=  4;
-        SEQ_NUM         : integer :=  8;
-        TIMER_BITS      : integer := 32;
+        C_ADDR_WIDTH    : integer range 1 to   64 :=  4;
+        C_DATA_WIDTH    : integer range 8 to 1024 := 32;
+        C_ID_WIDTH      : integer                 :=  8;
         AUTO_START      : boolean := TRUE;
         DEFAULT_TIMER   : integer := 100*1000*1000;
-        DEFAULT_SEQ_0   : integer := 2#1111#;
-        DEFAULT_SEQ_1   : integer := 2#1110#;
-        DEFAULT_SEQ_2   : integer := 2#1100#;
-        DEFAULT_SEQ_3   : integer := 2#1001#;
-        DEFAULT_SEQ_4   : integer := 2#0011#;
-        DEFAULT_SEQ_5   : integer := 2#0111#;
-        DEFAULT_SEQ_6   : integer := 2#0000#;
-        DEFAULT_SEQ_7   : integer := 2#0000#;
-        DEFAULT_SEQ_LAST: integer := 5
+        DEFAULT_SEQ_0   : integer range 0 to 15   := 2#1111#;
+        DEFAULT_SEQ_1   : integer range 0 to 15   := 2#1110#;
+        DEFAULT_SEQ_2   : integer range 0 to 15   := 2#1100#;
+        DEFAULT_SEQ_3   : integer range 0 to 15   := 2#1001#;
+        DEFAULT_SEQ_4   : integer range 0 to 15   := 2#0011#;
+        DEFAULT_SEQ_5   : integer range 0 to 15   := 2#0111#;
+        DEFAULT_SEQ_LAST: integer range 0 to 5 := 5
     );
     port(
     -------------------------------------------------------------------------------
     -- Clock and Reset Signals.
     -------------------------------------------------------------------------------
-        CLK             : in    std_logic;
-        CLR             : in    std_logic;
-        RST             : in    std_logic;
+        ACLOCK          : in    std_logic;
+        ARESETn         : in    std_logic;
     -------------------------------------------------------------------------------
-    -- Register Access Interface
+    -- Control Status Register I/F AXI4 Read Address Channel Signals.
     -------------------------------------------------------------------------------
-        LED_L           : in    std_logic_vector(LED_NUM   -1 downto 0);
-        LED_D           : in    std_logic_vector(LED_NUM   -1 downto 0);
-        LED_Q           : out   std_logic_vector(LED_NUM   -1 downto 0);
-        TIMER_L         : in    std_logic_vector(TIMER_BITS-1 downto 0);
-        TIMER_D         : in    std_logic_vector(TIMER_BITS-1 downto 0);
-        TIMER_Q         : out   std_logic_vector(TIMER_BITS-1 downto 0);
-        SEQ_0_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_0_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_0_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_1_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_1_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_1_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_2_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_2_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_2_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_3_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_3_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_3_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_4_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_4_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_4_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_5_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_5_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_5_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_6_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_6_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_6_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_7_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_7_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_7_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
-        SEQ_LAST_L      : in    std_logic_vector(2 downto 0);
-        SEQ_LAST_D      : in    std_logic_vector(2 downto 0);
-        SEQ_LAST_Q      : out   std_logic_vector(2 downto 0);
-        START_L         : in    std_logic;
-        START_D         : in    std_logic;
-        START_Q         : out   std_logic;
+        C_ARID          : in    std_logic_vector(C_ID_WIDTH    -1 downto 0);
+        C_ARADDR        : in    std_logic_vector(C_ADDR_WIDTH  -1 downto 0);
+        C_ARLEN         : in    std_logic_vector(3 downto 0);
+        C_ARSIZE        : in    std_logic_vector(2 downto 0);
+        C_ARBURST       : in    std_logic_vector(1 downto 0);
+        C_ARVALID       : in    std_logic;
+        C_ARREADY       : out   std_logic;
     -------------------------------------------------------------------------------
-    -- Output LED Signals.
+    -- Control Status Register I/F AXI4 Read Data Channel Signals.
     -------------------------------------------------------------------------------
-        LED             : out   std_logic_vector(LED_NUM    -1 downto 0)
+        C_RID           : out   std_logic_vector(C_ID_WIDTH    -1 downto 0);
+        C_RDATA         : out   std_logic_vector(C_DATA_WIDTH  -1 downto 0);
+        C_RRESP         : out   std_logic_vector(1 downto 0);
+        C_RLAST         : out   std_logic;
+        C_RVALID        : out   std_logic;
+        C_RREADY        : in    std_logic;
+    -------------------------------------------------------------------------------
+    -- Control Status Register I/F AXI4 Write Address Channel Signals.
+    -------------------------------------------------------------------------------
+        C_AWID          : in    std_logic_vector(C_ID_WIDTH    -1 downto 0);
+        C_AWADDR        : in    std_logic_vector(C_ADDR_WIDTH  -1 downto 0);
+        C_AWLEN         : in    std_logic_vector(3 downto 0);
+        C_AWSIZE        : in    std_logic_vector(2 downto 0);
+        C_AWBURST       : in    std_logic_vector(1 downto 0);
+        C_AWVALID       : in    std_logic;
+        C_AWREADY       : out   std_logic;
+    -------------------------------------------------------------------------------
+    -- Control Status Register I/F AXI4 Write Data Channel Signals.
+    -------------------------------------------------------------------------------
+        C_WDATA         : in    std_logic_vector(C_DATA_WIDTH  -1 downto 0);
+        C_WSTRB         : in    std_logic_vector(C_DATA_WIDTH/8-1 downto 0);
+        C_WLAST         : in    std_logic;
+        C_WVALID        : in    std_logic;
+        C_WREADY        : out   std_logic;
+    -------------------------------------------------------------------------------
+    -- Control Status Register I/F AXI4 Write Response Channel Signals.
+    -------------------------------------------------------------------------------
+        C_BID           : out   std_logic_vector(C_ID_WIDTH    -1 downto 0);
+        C_BRESP         : out   std_logic_vector(1 downto 0);
+        C_BVALID        : out   std_logic;
+        C_BREADY        : in    std_logic;
+    -------------------------------------------------------------------------------
+    -- 
+    -------------------------------------------------------------------------------
+        LED             : out   std_logic_vector(3 downto 0)
     );
-end     LED_CSR;
+end LED4_AXI;
 -----------------------------------------------------------------------------------
 -- アーキテクチャ本体
 -----------------------------------------------------------------------------------
 library ieee;
 use     ieee.std_logic_1164.all;
 use     ieee.numeric_std.all;
-architecture RTL of LED_CSR is
+library PIPEWORK;
+use     PIPEWORK.AXI4_COMPONENTS.AXI4_REGISTER_INTERFACE;
+use     PIPEWORK.COMPONENTS.REGISTER_ACCESS_ADAPTER;
+architecture RTL of LED4_AXI is
     -------------------------------------------------------------------------------
-    -- REGISTER PROCEDURE
+    -- リセット信号.
     -------------------------------------------------------------------------------
-    procedure REGS(
-        signal   CLK   : in    std_logic;
-        signal   RST   : in    std_logic;
-        signal   CLR   : in    std_logic;
-        constant DEF   : in    integer;
-        signal   L     : in    std_logic_vector;
-        signal   D     : in    std_logic_vector;
-        signal   Q     : inout std_logic_vector
-    ) is
-        alias    load  :       std_logic_vector(Q'length-1 downto 0) is L;
-        alias    wdata :       std_logic_vector(Q'length-1 downto 0) is D;
-    begin
-        if (RST = '1') then
-                Q <= std_logic_vector(to_unsigned(DEF,Q'length));
-        elsif (CLK'event and CLK = '1') then
-            if (CLR = '1') then
-                Q <= std_logic_vector(to_unsigned(DEF,Q'length));
-            else
-                for i in Q'range loop
-                    if (load(i) = '1') then
-                        Q(i) <= wdata(i);
-                    end if;
-                end loop;
-            end if;
-        end if;
-    end procedure;
+    signal   RST                : std_logic;
+    constant CLR                : std_logic := '0';
+    -------------------------------------------------------------------------------
+    -- レジスタアクセスインターフェースのアドレスのビット数.
+    -------------------------------------------------------------------------------
+    constant REGS_ADDR_WIDTH    : integer := 3;
+    -------------------------------------------------------------------------------
+    -- 全レジスタのビット数.
+    -------------------------------------------------------------------------------
+    constant REGS_DATA_BITS     : integer := (2**REGS_ADDR_WIDTH)*8;
+    -------------------------------------------------------------------------------
+    -- レジスタアクセスインターフェースのデータのビット数.
+    -------------------------------------------------------------------------------
+    constant REGS_DATA_WIDTH    : integer := 32;
+    -------------------------------------------------------------------------------
+    -- レジスタアクセス用の信号群.
+    -------------------------------------------------------------------------------
+    signal   regs_load          : std_logic_vector(REGS_DATA_BITS   -1 downto 0);
+    signal   regs_wbit          : std_logic_vector(REGS_DATA_BITS   -1 downto 0);
+    signal   regs_rbit          : std_logic_vector(REGS_DATA_BITS   -1 downto 0);
+    signal   regs_req           : std_logic;
+    signal   regs_write         : std_logic;
+    signal   regs_ack           : std_logic;
+    signal   regs_err           : std_logic;
+    signal   regs_addr          : std_logic_vector(REGS_ADDR_WIDTH  -1 downto 0);
+    signal   regs_ben           : std_logic_vector(REGS_DATA_WIDTH/8-1 downto 0);
+    signal   regs_wdata         : std_logic_vector(REGS_DATA_WIDTH  -1 downto 0);
+    signal   regs_rdata         : std_logic_vector(REGS_DATA_WIDTH  -1 downto 0);
+    -------------------------------------------------------------------------------
+    --
+    -------------------------------------------------------------------------------
+    component LED_CSR is
+        generic (
+            LED_NUM         : integer :=  4;
+            SEQ_NUM         : integer :=  8;
+            TIMER_BITS      : integer := 32;
+            AUTO_START      : boolean := TRUE;
+            DEFAULT_TIMER   : integer := 100*1000*1000;
+            DEFAULT_SEQ_0   : integer := 2#1111#;
+            DEFAULT_SEQ_1   : integer := 2#1110#;
+            DEFAULT_SEQ_2   : integer := 2#1100#;
+            DEFAULT_SEQ_3   : integer := 2#1001#;
+            DEFAULT_SEQ_4   : integer := 2#0011#;
+            DEFAULT_SEQ_5   : integer := 2#0111#;
+            DEFAULT_SEQ_6   : integer := 2#0000#;
+            DEFAULT_SEQ_7   : integer := 2#0000#;
+            DEFAULT_SEQ_LAST: integer := 5
+        );
+        port(
+            CLK             : in    std_logic;
+            CLR             : in    std_logic;
+            RST             : in    std_logic;
+            LED_L           : in    std_logic_vector(LED_NUM   -1 downto 0);
+            LED_D           : in    std_logic_vector(LED_NUM   -1 downto 0);
+            LED_Q           : out   std_logic_vector(LED_NUM   -1 downto 0);
+            TIMER_L         : in    std_logic_vector(TIMER_BITS-1 downto 0);
+            TIMER_D         : in    std_logic_vector(TIMER_BITS-1 downto 0);
+            TIMER_Q         : out   std_logic_vector(TIMER_BITS-1 downto 0);
+            SEQ_0_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_0_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_0_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_1_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_1_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_1_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_2_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_2_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_2_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_3_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_3_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_3_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_4_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_4_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_4_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_5_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_5_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_5_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_6_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_6_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_6_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_7_L         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_7_D         : in    std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_7_Q         : out   std_logic_vector(LED_NUM   -1 downto 0);
+            SEQ_LAST_L      : in    std_logic_vector(2 downto 0);
+            SEQ_LAST_D      : in    std_logic_vector(2 downto 0);
+            SEQ_LAST_Q      : out   std_logic_vector(2 downto 0);
+            START_L         : in    std_logic;
+            START_D         : in    std_logic;
+            START_Q         : out   std_logic;
+            LED             : out   std_logic_vector(LED_NUM    -1 downto 0)
+        );
+    end component;
+begin
     -------------------------------------------------------------------------------
     -- 
     -------------------------------------------------------------------------------
-    subtype  LED_TYPE   is std_logic_vector(LED_NUM-1 downto 0);
-    type     LED_VECTER is array(integer range <>) of LED_TYPE;
-    signal   seq_regs   :  LED_VECTER(0 to SEQ_NUM-1);
-    signal   seq_last   :  std_logic_vector(2 downto 0);
-    signal   timer      :  std_logic_vector(TIMER_BITS-1 downto 0);
-    signal   counter    :  unsigned        (TIMER_BITS-1 downto 0);
-    signal   trigger    :  boolean;
-    signal   curr_led   :  LED_TYPE;
-    signal   curr_seq   :  integer range 0 to SEQ_NUM-1;
-    signal   run        :  boolean;
-begin
+    RST <= '1' when (ARESETn = '0') else '0';
     -------------------------------------------------------------------------------
-    -- SEQ_[0-7] REGISTERS
+    --
     -------------------------------------------------------------------------------
-    SEQ_0: if (SEQ_NUM > 0) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_0, SEQ_0_L, SEQ_0_D, seq_regs(0));
-        end process;
-        SEQ_0_Q <= seq_regs(0);
-    end generate;
-    SEQ_1: if (SEQ_NUM > 1) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_1, SEQ_1_L, SEQ_1_D, seq_regs(1));
-        end process;
-        SEQ_1_Q <= seq_regs(1);
-    end generate;
-    SEQ_2: if (SEQ_NUM > 2) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_2, SEQ_2_L, SEQ_2_D, seq_regs(2));
-        end process;
-        SEQ_2_Q <= seq_regs(2);
-    end generate;
-    SEQ_3: if (SEQ_NUM > 3) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_3, SEQ_3_L, SEQ_3_D, seq_regs(3));
-        end process;
-        SEQ_3_Q <= seq_regs(3);
-    end generate;
-    SEQ_4: if (SEQ_NUM > 4) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_4, SEQ_4_L, SEQ_4_D, seq_regs(4));
-        end process;
-        SEQ_4_Q <= seq_regs(4);
-    end generate;
-    SEQ_5: if (SEQ_NUM > 5) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_5, SEQ_5_L, SEQ_5_D, seq_regs(5));
-        end process;
-        SEQ_5_Q <= seq_regs(5);
-    end generate;
-    SEQ_6: if (SEQ_NUM > 6) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_6, SEQ_6_L, SEQ_6_D, seq_regs(6));
-        end process;
-        SEQ_6_Q <= seq_regs(6);
-    end generate;
-    SEQ_7: if (SEQ_NUM > 7) generate
-        process (CLK, RST) begin
-            REGS(CLK, RST, CLR, DEFAULT_SEQ_7, SEQ_7_L, SEQ_7_D, seq_regs(7));
-        end process;
-        SEQ_7_Q <= seq_regs(7);
-    end generate;
+    AXI_IF: AXI4_REGISTER_INTERFACE                        --
+        generic map (                                      -- 
+            AXI4_ADDR_WIDTH => C_ADDR_WIDTH              , --
+            AXI4_DATA_WIDTH => C_DATA_WIDTH              , --
+            AXI4_ID_WIDTH   => C_ID_WIDTH                , --
+            REGS_ADDR_WIDTH => REGS_ADDR_WIDTH           , --
+            REGS_DATA_WIDTH => REGS_DATA_WIDTH             --
+        )                                                  -- 
+        port map (                                         -- 
+        ---------------------------------------------------------------------------
+        -- Clock and Reset Signals.
+        ---------------------------------------------------------------------------
+            CLK             => ACLOCK                    , -- In  :
+            RST             => RST                       , -- In  :
+            CLR             => CLR                       , -- In  :
+        ---------------------------------------------------------------------------
+        -- AXI4 Read Address Channel Signals.
+        ---------------------------------------------------------------------------
+            ARID            => C_ARID                    , -- In  :
+            ARADDR          => C_ARADDR                  , -- In  :
+            ARLEN(3 downto 0) => C_ARLEN                 , -- In  :
+            ARLEN(7 downto 4) => "0000"                  , -- In  :
+            ARSIZE          => C_ARSIZE                  , -- In  :
+            ARBURST         => C_ARBURST                 , -- In  :
+            ARVALID         => C_ARVALID                 , -- In  :
+            ARREADY         => C_ARREADY                 , -- Out :
+        ---------------------------------------------------------------------------
+        -- AXI4 Read Data Channel Signals.
+        ---------------------------------------------------------------------------
+            RID             => C_RID                     , -- Out :
+            RDATA           => C_RDATA                   , -- Out :
+            RRESP           => C_RRESP                   , -- Out :
+            RLAST           => C_RLAST                   , -- Out :
+            RVALID          => C_RVALID                  , -- Out :
+            RREADY          => C_RREADY                  , -- In  :
+        ---------------------------------------------------------------------------
+        -- AXI4 Write Address Channel Signals.
+        ---------------------------------------------------------------------------
+            AWID            => C_AWID                    , -- In  :
+            AWADDR          => C_AWADDR                  , -- In  :
+            AWLEN(3 downto 0) => C_AWLEN                 , -- In  :
+            AWLEN(7 downto 4) => "0000"                  , -- In  :
+            AWSIZE          => C_AWSIZE                  , -- In  :
+            AWBURST         => C_AWBURST                 , -- In  :
+            AWVALID         => C_AWVALID                 , -- In  :
+            AWREADY         => C_AWREADY                 , -- Out :
+        ---------------------------------------------------------------------------
+        -- AXI4 Write Data Channel Signals.
+        ---------------------------------------------------------------------------
+            WDATA           => C_WDATA                   , -- In  :
+            WSTRB           => C_WSTRB                   , -- In  :
+            WLAST           => C_WLAST                   , -- In  :
+            WVALID          => C_WVALID                  , -- In  :
+            WREADY          => C_WREADY                  , -- Out :
+        ---------------------------------------------------------------------------
+        -- AXI4 Write Response Channel Signals.
+        ---------------------------------------------------------------------------
+            BID             => C_BID                     , -- Out :
+            BRESP           => C_BRESP                   , -- Out :
+            BVALID          => C_BVALID                  , -- Out :
+            BREADY          => C_BREADY                  , -- In  :
+        ---------------------------------------------------------------------------
+        -- Register Interface.
+        ---------------------------------------------------------------------------
+            REGS_REQ        => regs_req                  , -- Out :
+            REGS_WRITE      => regs_write                , -- Out :
+            REGS_ACK        => regs_ack                  , -- In  :
+            REGS_ERR        => regs_err                  , -- In  :
+            REGS_ADDR       => regs_addr                 , -- Out :
+            REGS_BEN        => regs_ben                  , -- Out :
+            REGS_WDATA      => regs_wdata                , -- Out :
+            REGS_RDATA      => regs_rdata                  -- In  :
+        );                                                 -- 
     -------------------------------------------------------------------------------
-    -- timer    : 
+    -- 
     -------------------------------------------------------------------------------
-    process (CLK, RST) begin
-        REGS(CLK, RST, CLR, DEFAULT_TIMER   , TIMER_L   , TIMER_D   , timer   );
-    end process;
-    TIMER_Q <= timer;
+    DEC: REGISTER_ACCESS_ADAPTER                           -- 
+        generic map (                                      -- 
+            ADDR_WIDTH      => REGS_ADDR_WIDTH           , -- 
+            DATA_WIDTH      => REGS_DATA_WIDTH           , -- 
+            WBIT_MIN        => regs_wbit'low             , -- 
+            WBIT_MAX        => regs_wbit'high            , -- 
+            RBIT_MIN        => regs_rbit'low             , -- 
+            RBIT_MAX        => regs_rbit'high            , -- 
+            I_CLK_RATE      => 1                         , -- 
+            O_CLK_RATE      => 1                         , -- 
+            O_CLK_REGS      => 0                           -- 
+        )                                                  -- 
+        port map (                                         -- 
+            RST             => RST                       , -- In  :
+            I_CLK           => ACLOCK                    , -- In  :
+            I_CLR           => CLR                       , -- In  :
+            I_CKE           => '1'                       , -- In  :
+            I_REQ           => regs_req                  , -- In  :
+            I_SEL           => '1'                       , -- In  :
+            I_WRITE         => regs_write                , -- In  :
+            I_ADDR          => regs_addr                 , -- In  :
+            I_BEN           => regs_ben                  , -- In  :
+            I_WDATA         => regs_wdata                , -- In  :
+            I_RDATA         => regs_rdata                , -- Out :
+            I_ACK           => regs_ack                  , -- Out :
+            I_ERR           => regs_err                  , -- Out :
+            O_CLK           => ACLOCK                    , -- In  :
+            O_CLR           => CLR                       , -- In  :
+            O_CKE           => '1'                       , -- In  :
+            O_WDATA         => regs_wbit                 , -- Out :
+            O_WLOAD         => regs_load                 , -- Out :
+            O_RDATA         => regs_rbit                   -- In  :
+        );                                                 -- 
     -------------------------------------------------------------------------------
-    -- seq_last :
+    -- 
     -------------------------------------------------------------------------------
-    process (CLK, RST) begin
-        REGS(CLK, RST, CLR, DEFAULT_SEQ_LAST, SEQ_LAST_L, SEQ_LAST_D, seq_last);
-    end process;
-    SEQ_LAST_Q <= seq_last;
-    -------------------------------------------------------------------------------
-    -- counter  :
-    -------------------------------------------------------------------------------
-    process (CLK, RST)
-        variable curr_count : unsigned(counter'high+1 downto 0);
-        variable next_count : unsigned(counter'high+1 downto 0);
-    begin
-        if (RST = '1') then
-                counter <= (others => '0');
-                trigger <= FALSE;
-        elsif (CLK'event and CLK = '1') then
-            if (CLR = '1' or run = FALSE) then
-                counter <= (others => '0');
-                trigger <= FALSE;
-            else
-                curr_count := "0" & counter;
-                next_count := curr_count - 1;
-                if (next_count(next_count'high) = '1') then
-                    counter <= unsigned(timer);
-                    trigger <= TRUE;
-                else
-                    counter <= next_count(counter'range);
-                    trigger <= FALSE;
-                end if;
-            end if;
-        end if;
-    end process;
-    -------------------------------------------------------------------------------
-    -- curr_seq : 
-    -------------------------------------------------------------------------------
-    process (CLK, RST) begin
-        if (RST = '1') then
-                curr_seq <= 0;
-        elsif (CLK'event and CLK = '1') then
-            if (CLR = '1' or run = FALSE) then
-                curr_seq <= 0;
-            elsif (trigger = TRUE) then
-                if (curr_seq >= SEQ_NUM-1) or
-                   (curr_seq =  unsigned(seq_last)) then
-                    curr_seq <= 0;
-                else
-                    curr_seq <= curr_seq + 1;
-                end if;
-            end if;
-        end if;
-    end process;
-    -------------------------------------------------------------------------------
-    -- LED : 
-    -------------------------------------------------------------------------------
-    process (CLK, RST)
-        variable next_led : LED_TYPE;
-    begin
-        if (RST = '1') then
-                curr_led <= std_logic_vector(to_unsigned(DEFAULT_SEQ_0, LED_NUM));
-        elsif (CLK'event and CLK = '1') then
-            if (CLR = '1') then
-                curr_led <= std_logic_vector(to_unsigned(DEFAULT_SEQ_0, LED_NUM));
-            else
-                next_led := curr_led;
-                for seq in 0 to SEQ_NUM-1 loop
-                    if (run = TRUE and trigger = TRUE and seq = curr_seq) then
-                        next_led := seq_regs(seq);
-                    end if;
-                end loop;
-                for i in 0 to LED_NUM-1 loop
-                    if (LED_L(i) = '1') then
-                        curr_led(i) <= LED_D(i);
-                    else
-                        curr_led(i) <= next_led(i);
-                    end if;
-                end loop;
-            end if;
-        end if;
-    end process;
-    LED   <= curr_led;
-    LED_Q <= curr_led;
-    -------------------------------------------------------------------------------
-    -- RUN : 
-    -------------------------------------------------------------------------------
-    process (CLK, RST) begin
-        if (RST = '1') then
-                run <= AUTO_START;
-        elsif (CLK'event and CLK = '1') then
-            if (CLR = '1') then
-                run <= AUTO_START;
-            elsif (START_L = '1') then
-                run <= (START_D = '1');
-            end if;
-        end if;
-    end process;
-    START_Q <= '1' when (run = TRUE) else '0';
+    CSR: LED_CSR                                           -- 
+        generic map (                                      -- 
+            LED_NUM         => 4                         , -- 
+            SEQ_NUM         => 6                         , -- 
+            TIMER_BITS      => 28                        , -- 
+            AUTO_START      => AUTO_START                , --
+            DEFAULT_TIMER   => DEFAULT_TIMER             , --
+            DEFAULT_SEQ_0   => DEFAULT_SEQ_0             , --
+            DEFAULT_SEQ_1   => DEFAULT_SEQ_1             , --
+            DEFAULT_SEQ_2   => DEFAULT_SEQ_2             , --
+            DEFAULT_SEQ_3   => DEFAULT_SEQ_3             , --
+            DEFAULT_SEQ_4   => DEFAULT_SEQ_4             , --
+            DEFAULT_SEQ_5   => DEFAULT_SEQ_5             , --
+            DEFAULT_SEQ_6   => 0                         , --
+            DEFAULT_SEQ_7   => 0                         , --
+            DEFAULT_SEQ_LAST=> DEFAULT_SEQ_LAST            -- 
+        )                                                  -- 
+        port map (                                         -- 
+            CLK             => ACLOCK                    , -- In  :
+            CLR             => CLR                       , -- In  :
+            RST             => RST                       , -- In  :
+            LED_L           => regs_load( 3 downto  0)   , -- In  :
+            LED_D           => regs_wbit( 3 downto  0)   , -- In  :
+            LED_Q           => regs_rbit( 3 downto  0)   , -- Out :
+            SEQ_0_L         => regs_load(11 downto  8)   , -- In  :
+            SEQ_0_D         => regs_wbit(11 downto  8)   , -- In  :
+            SEQ_0_Q         => regs_rbit(11 downto  8)   , -- Out :
+            SEQ_1_L         => regs_load(15 downto 12)   , -- In  :
+            SEQ_1_D         => regs_wbit(15 downto 12)   , -- In  :
+            SEQ_1_Q         => regs_rbit(15 downto 12)   , -- Out :
+            SEQ_2_L         => regs_load(19 downto 16)   , -- In  :
+            SEQ_2_D         => regs_wbit(19 downto 16)   , -- In  :
+            SEQ_2_Q         => regs_rbit(19 downto 16)   , -- Out :
+            SEQ_3_L         => regs_load(23 downto 20)   , -- In  :
+            SEQ_3_D         => regs_wbit(23 downto 20)   , -- In  :
+            SEQ_3_Q         => regs_rbit(23 downto 20)   , -- Out :
+            SEQ_4_L         => regs_load(27 downto 24)   , -- In  :
+            SEQ_4_D         => regs_wbit(27 downto 24)   , -- In  :
+            SEQ_4_Q         => regs_rbit(27 downto 24)   , -- Out :
+            SEQ_5_L         => regs_load(31 downto 28)   , -- In  :
+            SEQ_5_D         => regs_wbit(31 downto 28)   , -- In  :
+            SEQ_5_Q         => regs_rbit(31 downto 28)   , -- Out :
+            SEQ_6_L         => "0000"                    , -- In  :
+            SEQ_6_D         => "0000"                    , -- In  :
+            SEQ_6_Q         => open                      , -- Out :
+            SEQ_7_L         => "0000"                    , -- In  :
+            SEQ_7_D         => "0000"                    , -- In  :
+            SEQ_7_Q         => open                      , -- Out :
+            TIMER_L         => regs_load(59 downto 32)   , -- In  :
+            TIMER_D         => regs_wbit(59 downto 32)   , -- In  :
+            TIMER_Q         => regs_rbit(59 downto 32)   , -- Out :
+            SEQ_LAST_L      => regs_load(62 downto 60)   , -- In  :
+            SEQ_LAST_D      => regs_wbit(62 downto 60)   , -- In  :
+            SEQ_LAST_Q      => regs_rbit(62 downto 60)   , -- Out :
+            START_L         => regs_load(63)             , -- In  :
+            START_D         => regs_wbit(63)             , -- In  :
+            START_Q         => regs_rbit(63)             , -- Out :
+            LED             => LED                         -- Out :
+        );
+    regs_rbit(7 downto 4) <= "0000";
 end RTL;

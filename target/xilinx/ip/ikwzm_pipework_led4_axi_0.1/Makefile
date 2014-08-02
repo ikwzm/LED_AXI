@@ -9,7 +9,7 @@ TARGET= src/led4_axi.vhd \
 
 src : $(TARGET)
 
-src/led4_axi.vhd : $(TOP)/src/main/vhdl/led_csr.vhd
+src/led4_axi.vhd : $(TOP)/src/main/vhdl/led4_axi.vhd
 	$(COPY) $< $@
 
 src/led_csr.vhd  : $(TOP)/src/main/vhdl/led_csr.vhd
