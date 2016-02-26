@@ -172,6 +172,13 @@ set_interface_property LED     ENABLED             true
 set_interface_property LED     EXPORT_OF           ""
 add_interface_port     LED     LED OUT Output 8
 
+#
+# for sopc2dts(SOPC to Device Tree File)
+#
+set_module_assignment embeddedsw.dts.vendor "ikwzm"
+set_module_assignment embeddedsw.dts.name   "zled-0.10.a"
+set_module_assignment embeddedsw.dts.group  "zled"
+
 # 
 # Elaboration callback
 #
