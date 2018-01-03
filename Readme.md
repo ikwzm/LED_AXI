@@ -1,8 +1,7 @@
 LED Controller with AXI Slave I/F
 ---------------------------------
 
-###ライセンス###
+### ライセンス
 
 二条項BSDライセンス (2-clause BSD license) で公開しています。
-
 
