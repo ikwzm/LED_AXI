@@ -3,6 +3,8 @@ proc init_gui { IPINST } {
 	set Page0 [ipgui::add_page $IPINST -name "Page 0" -layout vertical]
 	set Component_Name [ipgui::add_param $IPINST -parent $Page0 -name Component_Name]
 	set DEFAULT_SEQ_LAST [ipgui::add_param $IPINST -parent $Page0 -name DEFAULT_SEQ_LAST]
+	set DEFAULT_SEQ_7 [ipgui::add_param $IPINST -parent $Page0 -name DEFAULT_SEQ_7]
+	set DEFAULT_SEQ_6 [ipgui::add_param $IPINST -parent $Page0 -name DEFAULT_SEQ_6]
 	set DEFAULT_SEQ_5 [ipgui::add_param $IPINST -parent $Page0 -name DEFAULT_SEQ_5]
 	set DEFAULT_SEQ_4 [ipgui::add_param $IPINST -parent $Page0 -name DEFAULT_SEQ_4]
 	set DEFAULT_SEQ_3 [ipgui::add_param $IPINST -parent $Page0 -name DEFAULT_SEQ_3]
@@ -22,6 +24,24 @@ proc update_PARAM_VALUE.DEFAULT_SEQ_LAST { PARAM_VALUE.DEFAULT_SEQ_LAST } {
 
 proc validate_PARAM_VALUE.DEFAULT_SEQ_LAST { PARAM_VALUE.DEFAULT_SEQ_LAST } {
 	# Procedure called to validate DEFAULT_SEQ_LAST
+	return true
+}
+
+proc update_PARAM_VALUE.DEFAULT_SEQ_7 { PARAM_VALUE.DEFAULT_SEQ_7 } {
+	# Procedure called to update DEFAULT_SEQ_7 when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.DEFAULT_SEQ_7 { PARAM_VALUE.DEFAULT_SEQ_7 } {
+	# Procedure called to validate DEFAULT_SEQ_7
+	return true
+}
+
+proc update_PARAM_VALUE.DEFAULT_SEQ_6 { PARAM_VALUE.DEFAULT_SEQ_6 } {
+	# Procedure called to update DEFAULT_SEQ_6 when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.DEFAULT_SEQ_6 { PARAM_VALUE.DEFAULT_SEQ_6 } {
+	# Procedure called to validate DEFAULT_SEQ_6
 	return true
 }
 
@@ -178,6 +198,16 @@ proc update_MODELPARAM_VALUE.DEFAULT_SEQ_4 { MODELPARAM_VALUE.DEFAULT_SEQ_4 PARA
 proc update_MODELPARAM_VALUE.DEFAULT_SEQ_5 { MODELPARAM_VALUE.DEFAULT_SEQ_5 PARAM_VALUE.DEFAULT_SEQ_5 } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.DEFAULT_SEQ_5}] ${MODELPARAM_VALUE.DEFAULT_SEQ_5}
+}
+
+proc update_MODELPARAM_VALUE.DEFAULT_SEQ_6 { MODELPARAM_VALUE.DEFAULT_SEQ_6 PARAM_VALUE.DEFAULT_SEQ_6 } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.DEFAULT_SEQ_6}] ${MODELPARAM_VALUE.DEFAULT_SEQ_6}
+}
+
+proc update_MODELPARAM_VALUE.DEFAULT_SEQ_7 { MODELPARAM_VALUE.DEFAULT_SEQ_7 PARAM_VALUE.DEFAULT_SEQ_7 } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.DEFAULT_SEQ_7}] ${MODELPARAM_VALUE.DEFAULT_SEQ_7}
 }
 
 proc update_MODELPARAM_VALUE.DEFAULT_SEQ_LAST { MODELPARAM_VALUE.DEFAULT_SEQ_LAST PARAM_VALUE.DEFAULT_SEQ_LAST } {

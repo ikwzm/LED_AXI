@@ -1055,13 +1055,14 @@
         <xilinx:family xilinx:lifeCycle="Pre-Production">artix7l</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">aartix7</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">zynquplus</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">azynq</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
         <xilinx:taxonomy>/BaseIP</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>LED4_AXI_v1_0</xilinx:displayName>
-      <xilinx:coreRevision>3</xilinx:coreRevision>
+      <xilinx:coreRevision>4</xilinx:coreRevision>
       <xilinx:coreCreationDateTime>2017-02-18T07:17:09Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

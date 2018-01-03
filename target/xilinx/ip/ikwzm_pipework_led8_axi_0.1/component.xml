@@ -2,7 +2,7 @@
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <spirit:vendor>ikwzm</spirit:vendor>
   <spirit:library>pipework</spirit:library>
-  <spirit:name>LED4_AXI</spirit:name>
+  <spirit:name>LED8_AXI</spirit:name>
   <spirit:version>1.0</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
@@ -320,7 +320,7 @@
         <spirit:displayName>VHDL Synthesis</spirit:displayName>
         <spirit:envIdentifier>vhdlSource:vivado.xilinx.com:synthesis</spirit:envIdentifier>
         <spirit:language>vhdl</spirit:language>
-        <spirit:modelName>LED4_AXI</spirit:modelName>
+        <spirit:modelName>LED8_AXI</spirit:modelName>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_vhdlsynthesis_view_fileset</spirit:localName>
         </spirit:fileSetRef>
@@ -336,7 +336,7 @@
         <spirit:displayName>VHDL Simulation</spirit:displayName>
         <spirit:envIdentifier>vhdlSource:vivado.xilinx.com:simulation</spirit:envIdentifier>
         <spirit:language>vhdl</spirit:language>
-        <spirit:modelName>LED4_AXI</spirit:modelName>
+        <spirit:modelName>LED8_AXI</spirit:modelName>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:localName>
         </spirit:fileSetRef>
@@ -444,7 +444,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="immediate">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="immediate">7</spirit:left>
             <spirit:right spirit:format="long" spirit:resolve="immediate">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -645,7 +645,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="immediate">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="immediate">7</spirit:left>
             <spirit:right spirit:format="long" spirit:resolve="immediate">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -855,7 +855,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="immediate">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="immediate">7</spirit:left>
             <spirit:right spirit:format="long" spirit:resolve="immediate">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -897,32 +897,42 @@
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_0</spirit:name>
         <spirit:displayName>Default Seq 0</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_0" spirit:maximum="15" spirit:rangeType="long">15</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_0" spirit:maximum="15" spirit:rangeType="long">24</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_1</spirit:name>
         <spirit:displayName>Default Seq 1</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_1" spirit:maximum="15" spirit:rangeType="long">14</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_1" spirit:maximum="15" spirit:rangeType="long">36</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_2</spirit:name>
         <spirit:displayName>Default Seq 2</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_2" spirit:maximum="15" spirit:rangeType="long">12</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_2" spirit:maximum="15" spirit:rangeType="long">66</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_3</spirit:name>
         <spirit:displayName>Default Seq 3</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_3" spirit:maximum="15" spirit:rangeType="long">9</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_3" spirit:maximum="15" spirit:rangeType="long">129</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_4</spirit:name>
         <spirit:displayName>Default Seq 4</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_4" spirit:maximum="15" spirit:rangeType="long">3</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_4" spirit:maximum="15" spirit:rangeType="long">66</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_5</spirit:name>
         <spirit:displayName>Default Seq 5</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_5" spirit:maximum="15" spirit:rangeType="long">7</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_5" spirit:maximum="15" spirit:rangeType="long">36</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DEFAULT_SEQ_6</spirit:name>
+        <spirit:displayName>Default Seq 6</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_6" spirit:maximum="15" spirit:rangeType="long">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DEFAULT_SEQ_7</spirit:name>
+        <spirit:displayName>Default Seq 7</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DEFAULT_SEQ_7" spirit:maximum="15" spirit:rangeType="long">0</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>DEFAULT_SEQ_LAST</spirit:name>
@@ -945,7 +955,7 @@
         <spirit:logicalName>xil_defaultlib</spirit:logicalName>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/led4_axi.vhd</spirit:name>
+        <spirit:name>src/led8_axi.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_953ef6c4</spirit:userFileType>
         <spirit:logicalName>xil_defaultlib</spirit:logicalName>
@@ -964,7 +974,7 @@
         <spirit:logicalName>xil_defaultlib</spirit:logicalName>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/led4_axi.vhd</spirit:name>
+        <spirit:name>src/led8_axi.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:logicalName>xil_defaultlib</spirit:logicalName>
       </spirit:file>
@@ -972,14 +982,14 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/LED4_AXI_v0_1.tcl</spirit:name>
+        <spirit:name>xgui/LED8_AXI_v0_1.tcl</spirit:name>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_afe53a42</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>LED4_AXI_v0_1</spirit:description>
+  <spirit:description>LED8_AXI_v0_1</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_LAST</spirit:name>
@@ -987,34 +997,44 @@
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_LAST" spirit:order="0.0" spirit:configGroups="0 UnGrouped">5</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
+      <spirit:name>DEFAULT_SEQ_7</spirit:name>
+      <spirit:displayName>Default Seq 7</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_7" spirit:order="0.0" spirit:configGroups="0 UnGrouped">0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DEFAULT_SEQ_6</spirit:name>
+      <spirit:displayName>Default Seq 6</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_6" spirit:order="0.0" spirit:configGroups="0 UnGrouped">0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_5</spirit:name>
       <spirit:displayName>Default Seq 5</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_5" spirit:order="0.0" spirit:configGroups="0 UnGrouped">7</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_5" spirit:order="0.0" spirit:configGroups="0 UnGrouped">36</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_4</spirit:name>
       <spirit:displayName>Default Seq 4</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_4" spirit:order="0.0" spirit:configGroups="0 UnGrouped">3</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_4" spirit:order="0.0" spirit:configGroups="0 UnGrouped">66</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_3</spirit:name>
       <spirit:displayName>Default Seq 3</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_3" spirit:order="0.0" spirit:configGroups="0 UnGrouped">9</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_3" spirit:order="0.0" spirit:configGroups="0 UnGrouped">129</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_2</spirit:name>
       <spirit:displayName>Default Seq 2</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_2" spirit:order="0.0" spirit:configGroups="0 UnGrouped">12</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_2" spirit:order="0.0" spirit:configGroups="0 UnGrouped">66</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_1</spirit:name>
       <spirit:displayName>Default Seq 1</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_1" spirit:order="0.0" spirit:configGroups="0 UnGrouped">14</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_1" spirit:order="0.0" spirit:configGroups="0 UnGrouped">36</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DEFAULT_SEQ_0</spirit:name>
       <spirit:displayName>Default Seq 0</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_0" spirit:order="0.0" spirit:configGroups="0 UnGrouped">15</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DEFAULT_SEQ_0" spirit:order="0.0" spirit:configGroups="0 UnGrouped">24</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DEFAULT_TIMER</spirit:name>
@@ -1043,7 +1063,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">LED4_AXI_v0_1</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">LED8_AXI_v0_1</spirit:value>
     </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
@@ -1055,13 +1075,13 @@
         <xilinx:family xilinx:lifeCycle="Pre-Production">artix7l</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">aartix7</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">zynq</xilinx:family>
-        <xilinx:family xilinx:lifeCycle="Pre-Production">azynq</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">azynq</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
         <xilinx:taxonomy>/BaseIP</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>LED4_AXI_v1_0</xilinx:displayName>
+      <xilinx:displayName>LED8_AXI_v1_0</xilinx:displayName>
       <xilinx:coreRevision>4</xilinx:coreRevision>
       <xilinx:coreCreationDateTime>2017-02-18T07:17:09Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
